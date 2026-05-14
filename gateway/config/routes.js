@@ -16,7 +16,7 @@ const serviceRoutes = [
     prefix: '/api/usuarios',
     rewritePrefix: '/users',
     upstreamEnv: 'UPSTREAM_USUARIOS',
-    defaultUpstream: 'http://127.0.0.1:3004'
+    defaultUpstream: 'http://127.0.0.1:3002'
   },
   {
     name: 'pedidos',
