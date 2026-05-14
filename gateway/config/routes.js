@@ -14,12 +14,14 @@ const serviceRoutes = [
   {
     name: 'usuarios',
     prefix: '/api/usuarios',
+    rewritePrefix: '/users',
     upstreamEnv: 'UPSTREAM_USUARIOS',
-    defaultUpstream: 'http://127.0.0.1:3002'
+    defaultUpstream: 'http://127.0.0.1:3004'
   },
   {
     name: 'pedidos',
     prefix: '/api/pedidos',
+    rewritePrefix: '/pedidos',
     upstreamEnv: 'UPSTREAM_PEDIDOS',
     defaultUpstream: 'http://127.0.0.1:3003'
   },
@@ -38,12 +40,15 @@ const serviceRoutes = [
 ]
 
 /**
- * Rotas públicas (sem JWT). Apenas login e cadastro conforme requisito.
+ * Rotas públicas (sem JWT).
  * Método explícito evita bypass por verb tampering em rotas sensíveis.
  */
 const publicAuthRoutes = [
   { method: 'POST', path: '/api/usuarios/login' },
-  { method: 'POST', path: '/api/usuarios/cadastro' }
+  { method: 'POST', path: '/api/usuarios/register' },
+  { method: 'POST', path: '/api/usuarios/esqueci-senha' },
+  { method: 'POST', path: '/api/usuarios/redefinir-senha' },
+  { method: 'POST', path: '/api/usuarios/login/google' }
 ]
 
 function resolveUpstream(route) {

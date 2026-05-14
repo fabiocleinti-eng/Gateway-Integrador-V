@@ -76,10 +76,32 @@ async function authOnRequest(fastify, request, reply) {
 
   const verifyOpts = {
     algorithms: ['HS256'],
-    clockTolerance: 0
+    clockTolerance: 30
   }
   if (process.env.JWT_ISSUER) verifyOpts.issuer = process.env.JWT_ISSUER
   if (process.env.JWT_AUDIENCE) verifyOpts.audience = process.env.JWT_AUDIENCE
+
+  // Dev bypass: aceita token sem verificar assinatura — NUNCA em produção
+  const isDevBypass =
+    process.env.DEV_BYPASS === 'true' &&
+    process.env.NODE_ENV !== 'production'
+
+  if (isDevBypass) {
+    try {
+      const payload = jwt.decode(token)
+      if (!payload) {
+        return reply.code(401).send({ error: 'Token inválido (dev)' })
+      }
+      request.user = {
+        sub: payload.sub != null ? String(payload.sub) : null,
+        id: payload.id != null ? String(payload.id) : null,
+        raw: payload
+      }
+      return
+    } catch {
+      return reply.code(401).send({ error: 'Token inválido (dev)' })
+    }
+  }
 
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET, verifyOpts)

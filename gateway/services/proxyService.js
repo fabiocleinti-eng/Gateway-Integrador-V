@@ -1,5 +1,6 @@
 'use strict'
 
+const { randomUUID } = require('crypto')
 const httpProxy = require('@fastify/http-proxy')
 const { serviceRoutes, resolveUpstream } = require('../config/routes')
 const { logger } = require('../utils/logger')
@@ -20,6 +21,7 @@ async function registerProxies(fastify) {
     await fastify.register(httpProxy, {
       upstream,
       prefix: route.prefix,
+      ...(route.rewritePrefix !== undefined && { rewritePrefix: route.rewritePrefix }),
       http2: false,
       http: {
         requestOptions: {
@@ -49,8 +51,7 @@ async function registerProxies(fastify) {
           if (ct) out['content-type'] = ct
           const accept = originalReq.headers.accept
           if (accept) out.accept = accept
-          const rid = originalReq.headers['x-request-id']
-          if (rid) out['x-request-id'] = rid
+          out['x-request-id'] = originalReq.headers['x-request-id'] || randomUUID()
           out['x-forwarded-host'] = originalReq.headers.host || ''
           return out
         }
