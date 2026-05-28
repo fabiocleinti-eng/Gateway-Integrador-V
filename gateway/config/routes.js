@@ -48,7 +48,9 @@ const publicAuthRoutes = [
   { method: 'POST', path: '/api/usuarios/register' },
   { method: 'POST', path: '/api/usuarios/esqueci-senha' },
   { method: 'POST', path: '/api/usuarios/redefinir-senha' },
-  { method: 'POST', path: '/api/usuarios/login/google' }
+  { method: 'POST', path: '/api/usuarios/login/google' },
+  { method: 'POST', path: '/api/restaurantes/login' },
+  { method: 'POST', path: '/api/restaurantes/cadastro' }
 ]
 
 function resolveUpstream(route) {
