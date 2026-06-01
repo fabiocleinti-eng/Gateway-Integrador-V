@@ -8,6 +8,21 @@ const serviceRoutes = [
   {
     name: 'restaurantes',
     prefix: '/api/restaurantes',
+    rewritePrefix: '/api/restaurantes',
+    upstreamEnv: 'UPSTREAM_RESTAURANTES',
+    defaultUpstream: 'http://127.0.0.1:3001'
+  },
+  {
+    name: 'categorias',
+    prefix: '/api/categorias',
+    rewritePrefix: '/api/categorias',
+    upstreamEnv: 'UPSTREAM_RESTAURANTES',
+    defaultUpstream: 'http://127.0.0.1:3001'
+  },
+  {
+    name: 'itens',
+    prefix: '/api/itens',
+    rewritePrefix: '/api/itens',
     upstreamEnv: 'UPSTREAM_RESTAURANTES',
     defaultUpstream: 'http://127.0.0.1:3001'
   },
@@ -28,6 +43,7 @@ const serviceRoutes = [
   {
     name: 'entregadores',
     prefix: '/api/entregadores',
+    rewritePrefix: '/api/entregadores',
     upstreamEnv: 'UPSTREAM_ENTREGADORES',
     defaultUpstream: 'http://127.0.0.1:3004'
   },
